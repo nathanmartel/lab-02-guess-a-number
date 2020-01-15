@@ -1,5 +1,6 @@
 // Get DOM elements
 const submitButton = document.getElementById('submit-button');
+const playGame = document.getElementById('play-game');
 let guessedNum = document.getElementById('guessed-number');
 const triesRemaining = document.getElementById('tries-remaining');
 const triesRemainingNumber = document.getElementById('tries-remaining-number');
@@ -12,22 +13,20 @@ let totalGuesses = 0;
 const maxGuesses = 4;
 triesRemainingNumber.textContent = maxGuesses;
 
-// Listen for button click, change state, and update DOM
-submitButton.addEventListener('click', () => {
+// Change state and update DOM on click
+function compareNumbers() {
     totalGuesses++;
+    let guessedNumber = Number(guessedNum.value);
     if (totalGuesses >= maxGuesses) {
         winOrLose.textContent = 'Sorry! You\'ve lost!';
-        triesRemaining.style.display = 'none';
-        highOrLow.style.display = 'none';
+        playGame.style.display = 'none';
         return;
     }
-    let guessedNumber = Number(guessedNum.value);
-    console.log('guessedNumber is: ' + guessedNumber);
-    console.log('correctNumber is: ' + correctNumber);
+    console.log('guess is: ' + guessedNumber);
+    console.log('correct is: ' + correctNumber);
     if (guessedNumber === correctNumber) {
-        winOrLose.textContent = `Holy smokes! You\'ve won with ${maxGuesses - totalGuesses} guesses left!`;
-        triesRemaining.style.display = 'none';
-        highOrLow.style.display = 'none';
+        winOrLose.textContent = `Holy smokes, you\'re right! It was ${correctNumber}. You\'ve won with ${maxGuesses - totalGuesses} guesses left.`;
+        playGame.style.display = 'none';
         return;
     } else if (guessedNumber < correctNumber) {
         highOrLow.textContent = 'Too low!';
@@ -36,4 +35,7 @@ submitButton.addEventListener('click', () => {
     }    
 
     triesRemainingNumber.textContent = maxGuesses - totalGuesses;
-});
+}
+
+// Listen for button click
+submitButton.addEventListener('click', compareNumbers);
